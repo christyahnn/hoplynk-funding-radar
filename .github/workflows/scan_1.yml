@@ -2,10 +2,12 @@ name: Scan funding sources
 
 on:
   schedule:
-    # Runs once a day at 13:00 UTC (~6am Pacific / 9am Eastern).
-    # DoD SBIR/DSIP topic lists can be amended on short notice, so daily
-    # keeps you close to real-time without hammering the sources.
+    # Runs twice a day: 13:00 UTC (~6am Pacific / 9am Eastern) and
+    # 01:00 UTC (~6pm Pacific / 9pm Eastern). DoD SBIR/DSIP topic lists
+    # can be amended on short notice, so twice-daily keeps you closer to
+    # real-time without hammering the sources.
     - cron: "0 13 * * *"
+    - cron: "0 1 * * *"
   workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
 
 permissions:
