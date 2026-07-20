@@ -170,6 +170,34 @@ def scan_sbir_api():
     return results
 
 
+# Boilerplate link text that shows up on nearly every site's markup but is
+# never an actual opportunity -- accessibility skip-links, nav labels, footer
+# links, etc. Anything matching these (case-insensitively, after stripping
+# punctuation) gets discarded before the keyword filter even runs.
+BOILERPLATE_LINK_TEXT = {
+    "skip to content", "skip to main content", "skip to navigation",
+    "skip navigation", "skip to footer", "back to top", "home",
+    "menu", "search", "login", "log in", "sign in", "contact",
+    "contact us", "about", "about us", "privacy policy", "privacy",
+    "terms of use", "terms of service", "accessibility",
+    "accessibility statement", "sitemap", "site map", "careers",
+    "newsletter", "subscribe", "facebook", "twitter", "linkedin",
+    "instagram", "youtube", "read more", "learn more", "next", "previous",
+    "close", "faq", "faqs", "help", "cookie policy", "cookies",
+}
+
+
+def is_boilerplate_link(title: str, href: str) -> bool:
+    normalized = re.sub(r"[^a-z0-9 ]", "", title.lower()).strip()
+    if normalized in BOILERPLATE_LINK_TEXT:
+        return True
+    if href.strip().startswith("#"):
+        return True  # same-page anchor, not a real destination
+    if len(normalized) < 12:
+        return True  # too short to plausibly be an opportunity title
+    return False
+
+
 def scan_html_listing(source_name, url, link_selector="a"):
     """Generic scraper: grab links + surrounding text from a listing page and
     keep anything that matches Hoplynk's keyword profile. This is intentionally
@@ -191,7 +219,9 @@ def scan_html_listing(source_name, url, link_selector="a"):
     for link in soup.select(link_selector):
         title = link.get_text(strip=True)
         href = link.get("href")
-        if not title or not href or len(title) < 8:
+        if not title or not href:
+            continue
+        if is_boilerplate_link(title, href):
             continue
         if title in seen_titles:
             continue
@@ -315,6 +345,41 @@ def merge(existing_data, new_items):
     return merged
 
 
+# How long to keep an opportunity visible after its close date passes,
+# before the scanner removes it from opportunities.json entirely.
+GRACE_PERIOD_DAYS = 7
+
+
+def prune_expired(opportunities):
+    """Drop opportunities whose close date is more than GRACE_PERIOD_DAYS in
+    the past. Opportunities with no close date (TBD) are always kept, since
+    there's nothing to measure the grace period against."""
+    today = datetime.now(timezone.utc).date()
+    kept, removed = [], []
+    for o in opportunities:
+        close_date_str = o.get("closeDate")
+        if not close_date_str:
+            kept.append(o)
+            continue
+        try:
+            close_date = datetime.fromisoformat(close_date_str[:10]).date()
+        except ValueError:
+            # Unparseable date -- keep it rather than silently losing data,
+            # but flag it so it's easy to spot and fix by hand.
+            print(f"[prune] could not parse closeDate '{close_date_str}' for '{o.get('name')}', keeping it", file=sys.stderr)
+            kept.append(o)
+            continue
+        days_past_close = (today - close_date).days
+        if days_past_close > GRACE_PERIOD_DAYS:
+            removed.append(o)
+        else:
+            kept.append(o)
+    if removed:
+        names = ", ".join(o.get("name", o.get("id", "?")) for o in removed)
+        print(f"Pruned {len(removed)} expired opportunit{'y' if len(removed)==1 else 'ies'} (closed >{GRACE_PERIOD_DAYS}d ago): {names}")
+    return kept
+
+
 def main():
     existing = load_existing()
     new_items = []
@@ -325,6 +390,7 @@ def main():
     new_items += scan_sam_gov()
 
     merged = merge(existing, new_items)
+    merged = prune_expired(merged)
     output = {"lastScan": datetime.now(timezone.utc).isoformat(), "opportunities": merged}
 
     DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
