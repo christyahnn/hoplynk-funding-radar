@@ -1,0 +1,74 @@
+name: Scan funding sources
+
+on:
+  schedule:
+    # Runs once a day at 13:00 UTC (~6am Pacific / 9am Eastern).
+    # DoD SBIR/DSIP topic lists can be amended on short notice, so daily
+    # keeps you close to real-time without hammering the sources.
+    - cron: "0 13 * * *"
+  workflow_dispatch: {}   # lets you trigger a run manually from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Snapshot opportunity count before scan
+        id: before
+        run: |
+          if [ -f data/opportunities.json ]; then
+            echo "count=$(python -c "import json;print(len(json.load(open('data/opportunities.json'))['opportunities']))")" >> "$GITHUB_OUTPUT"
+          else
+            echo "count=0" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run scanner
+        env:
+          SAM_API_KEY: ${{ secrets.SAM_API_KEY }}
+        run: python scripts/hoplynk_scan.py
+
+      - name: Snapshot opportunity count after scan
+        id: after
+        run: echo "count=$(python -c "import json;print(len(json.load(open('data/opportunities.json'))['opportunities']))")" >> "$GITHUB_OUTPUT"
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "hoplynk-funding-radar-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/opportunities.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-scan: $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git push
+          else
+            echo "No changes to commit."
+          fi
+
+      # Optional: post to Slack when new opportunities show up.
+      # Add a SLACK_WEBHOOK_URL repo secret (Settings -> Secrets and variables
+      # -> Actions) to enable this step; it's a no-op without it.
+      - name: Notify Slack of new opportunities
+        if: steps.after.outputs.count != steps.before.outputs.count
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -n "$SLACK_WEBHOOK_URL" ]; then
+            NEW_COUNT=$((${{ steps.after.outputs.count }} - ${{ steps.before.outputs.count }}))
+            curl -s -X POST -H 'Content-type: application/json' \
+              --data "{\"text\":\"Hoplynk Funding Radar: ${NEW_COUNT} new opportunity(ies) found. Check the dashboard for details.\"}" \
+              "$SLACK_WEBHOOK_URL"
+          else
+            echo "SLACK_WEBHOOK_URL not set, skipping notification."
+          fi
