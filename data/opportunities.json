@@ -1,5 +1,5 @@
 {
-  "lastScan": "2026-07-20T00:00:00Z",
+  "lastScan": "2026-07-20T19:54:44.988860+00:00",
   "opportunities": [
     {
       "id": "dod-sbir-zero-trust-combat-systems",
@@ -12,7 +12,10 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "High alignment, but Hoplynk does not currently have Advanced Authentication (biometrics/MFA) or a blockchain-based immutable access-logging capability the Navy is exploring. Targets: cut access latency 50%+, cut unauthorized-access risk 90%+, cut admin overhead 25%+.",
-      "products": ["Hydra", "Argus"],
+      "products": [
+        "Hydra",
+        "Argus"
+      ],
       "fitLevel": "High",
       "firstSeen": "2026-07-20"
     },
@@ -27,7 +30,10 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "High alignment.",
-      "products": ["Argus", "Hydra"],
+      "products": [
+        "Argus",
+        "Hydra"
+      ],
       "fitLevel": "High",
       "firstSeen": "2026-07-20"
     },
@@ -42,7 +48,10 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "High alignment.",
-      "products": ["Argus", "Hydra"],
+      "products": [
+        "Argus",
+        "Hydra"
+      ],
       "fitLevel": "High",
       "firstSeen": "2026-07-20"
     },
@@ -57,7 +66,9 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "High alignment, only caveat is the Navy is looking specifically at free-space laser/IR links rather than fiber or traditional RF. Target: 4TB in 60 seconds (~67GB/s sustained) over 5,000+ nautical miles.",
-      "products": ["HAVEN"],
+      "products": [
+        "HAVEN"
+      ],
       "fitLevel": "High",
       "firstSeen": "2026-07-20"
     },
@@ -72,7 +83,10 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "Baseline focus is secure tasking at required CUI levels; later phases target a 90% reduction in tasking latency.",
-      "products": ["HAVEN", "Hydra"],
+      "products": [
+        "HAVEN",
+        "Hydra"
+      ],
       "fitLevel": "High",
       "firstSeen": "2026-07-20"
     },
@@ -87,7 +101,10 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "Good fit as a teaming partner/subcontractor -- Hoplynk provides the connective/decentralized networking layer while a partner takes the swarm-autonomy tech.",
-      "products": ["Argus", "Hydra"],
+      "products": [
+        "Argus",
+        "Hydra"
+      ],
       "fitLevel": "High (teaming)",
       "firstSeen": "2026-07-20"
     },
@@ -102,7 +119,9 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "Adjacent fit.",
-      "products": ["Argus"],
+      "products": [
+        "Argus"
+      ],
       "fitLevel": "Adjacent",
       "firstSeen": "2026-07-20"
     },
@@ -117,7 +136,12 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "Relevant -- open topic, worth reviewing against whichever Hoplynk product has the strongest narrative that cycle.",
-      "products": ["HAVEN", "Argus", "Hydra", "GoLynk"],
+      "products": [
+        "HAVEN",
+        "Argus",
+        "Hydra",
+        "GoLynk"
+      ],
       "fitLevel": "Review",
       "firstSeen": "2026-07-20"
     },
@@ -132,7 +156,9 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.dodsbirsttr.mil/topics-app/",
       "notes": "Not yet scored for fit -- fleet coordination angle could map to Argus, but confirm before applying.",
-      "products": ["Argus"],
+      "products": [
+        "Argus"
+      ],
       "fitLevel": "Review",
       "firstSeen": "2026-07-20"
     },
@@ -147,7 +173,9 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.diu.mil/work-with-us/submit-solution/PROJ00684",
       "notes": "Might be worth partnering with someone else for the submission -- Hoplynk's edge is the connectivity/comms layer, not the RF sensing itself.",
-      "products": ["HAVEN"],
+      "products": [
+        "HAVEN"
+      ],
       "fitLevel": "Adjacent (teaming)",
       "firstSeen": "2026-07-20"
     },
@@ -162,7 +190,10 @@
       "fundingAmount": null,
       "applicationUrl": "https://sam.gov/workspace/contract/opp/7ec8b411aa67494e8c357770c594dcad/view",
       "notes": "Expeditionary VLF transmitter -- possible fit for GoLynk's rapid-deploy angle. Needs manual review of the SAM.gov listing for dates/requirements.",
-      "products": ["GoLynk", "HAVEN"],
+      "products": [
+        "GoLynk",
+        "HAVEN"
+      ],
       "fitLevel": "Review",
       "firstSeen": "2026-07-20"
     },
@@ -177,7 +208,44 @@
       "fundingAmount": null,
       "applicationUrl": "https://www.ntia.gov/funding-programs/public-wireless-supply-chain-innovation-fund",
       "notes": "Standing program, not a dated solicitation -- check current funding rounds/NOFOs periodically.",
-      "products": ["HAVEN", "GoLynk"],
+      "products": [
+        "HAVEN",
+        "GoLynk"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-20"
+    },
+    {
+      "id": "xTech-skip-to-content",
+      "name": "Skip to content",
+      "source": "xTech",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "#content",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-20"
+    },
+    {
+      "id": "DIU-skip-to-main-content",
+      "name": "Skip to main content",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "#maincontent",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
       "fitLevel": "Review",
       "firstSeen": "2026-07-20"
     }
