@@ -214,40 +214,6 @@
       ],
       "fitLevel": "Review",
       "firstSeen": "2026-07-20"
-    },
-    {
-      "id": "xTech-skip-to-content",
-      "name": "Skip to content",
-      "source": "xTech",
-      "objective": "Auto-collected lead -- confirm details on the source page.",
-      "openDate": null,
-      "closeDate": null,
-      "cmmcRequirement": null,
-      "fundingAmount": null,
-      "applicationUrl": "#content",
-      "notes": "Picked up by keyword scan; not yet manually reviewed.",
-      "products": [
-        "Review"
-      ],
-      "fitLevel": "Review",
-      "firstSeen": "2026-07-20"
-    },
-    {
-      "id": "DIU-skip-to-main-content",
-      "name": "Skip to main content",
-      "source": "DIU",
-      "objective": "Auto-collected lead -- confirm details on the source page.",
-      "openDate": null,
-      "closeDate": null,
-      "cmmcRequirement": null,
-      "fundingAmount": null,
-      "applicationUrl": "#maincontent",
-      "notes": "Picked up by keyword scan; not yet manually reviewed.",
-      "products": [
-        "HAVEN"
-      ],
-      "fitLevel": "Review",
-      "firstSeen": "2026-07-20"
     }
   ]
 }
