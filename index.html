@@ -241,6 +241,7 @@
   .badge.fit-high{ background: var(--green-dim); color: var(--green); }
   .badge.fit-adjacent{ background: var(--amber-dim); color: var(--amber); }
   .badge.fit-review{ background: var(--bg-raised); color: var(--text-muted); }
+  .badge.fit-broad{ background: var(--bg-raised); color: var(--text-dim); border: 1px dashed var(--border); }
 
   .products{ display:flex; gap:6px; margin-top:8px; flex-wrap:wrap; }
   .product-tag{
@@ -522,6 +523,7 @@ function fitClass(fit){
   const f = fit.toLowerCase();
   if(f.startsWith('high')) return 'fit-high';
   if(f.startsWith('adjacent')) return 'fit-adjacent';
+  if(f.includes('broad')) return 'fit-broad';
   return 'fit-review';
 }
 
@@ -542,7 +544,7 @@ function render(){
     return matchesProduct && matchesSearch;
   });
 
-  const fitRank = { 'high (teaming)': 0, 'high': 1, 'adjacent': 2, 'adjacent (teaming)': 2, 'review': 3 };
+  const fitRank = { 'high (teaming)': 0, 'high': 1, 'adjacent': 2, 'adjacent (teaming)': 2, 'review': 3, 'review (broad match)': 4 };
   if(sort === 'close-asc'){
     items.sort((a,b) => {
       const da = a.closeDate ? new Date(a.closeDate) : new Date('2100-01-01');

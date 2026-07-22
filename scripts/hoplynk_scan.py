@@ -87,12 +87,30 @@ PRODUCT_KEYWORDS = {
 }
 
 # Broader terms that make a topic worth a second look even without a
-# precise product-keyword hit.
+# precise product-keyword hit. These are still fairly close to what Hoplynk
+# actually builds.
 GENERAL_KEYWORDS = [
     "network", "networking", "connectivity", "communications", "comms",
     "drone", "uas", "unmanned", "radar", "sensor fusion", "command and control",
-    "c2", "multi-domain", "autonomous", "ai agent", "artificial intelligence",
-    "resilient", "resilience", "edge computing", "wireless",
+    "c2", "c4isr", "multi-domain", "autonomous", "ai agent", "artificial intelligence",
+    "resilient", "resilience", "edge computing", "wireless", "data link",
+    "situational awareness", "battle management", "mesh", "spectrum",
+]
+
+# Wider still -- broader defense-tech / dual-use terms that aren't a direct
+# hit on Hoplynk's product line, but are the kind of adjacent topic worth
+# surfacing for a human to skim rather than silently dropping. Anything
+# matched only at this tier gets tagged "Review (broad match)" in the
+# dashboard so it's clearly lower-confidence than a product-keyword hit.
+ADJACENT_KEYWORDS = [
+    "artificial intelligence", "machine learning", "ai/ml", "robotics",
+    "autonomy", "isr", "intelligence surveillance reconnaissance",
+    "electronic warfare", "cyber", "cybersecurity", "space", "satellite",
+    "gps", "pnt", "positioning navigation and timing", "logistics",
+    "digital engineering", "cloud", "data fusion", "swarm", "tactical",
+    "expeditionary", "contested logistics", "joint all-domain",
+    "jadc2", "dual-use", "prototype", "rapid prototyping",
+    "unmanned systems", "counter-uas", "cuas", "sensor", "sensors",
 ]
 
 
@@ -127,7 +145,24 @@ def is_relevant(text: str) -> bool:
     text_l = text.lower()
     if keyword_matches(text):
         return True
-    return any(kw in text_l for kw in GENERAL_KEYWORDS)
+    if any(kw in text_l for kw in GENERAL_KEYWORDS):
+        return True
+    return any(kw in text_l for kw in ADJACENT_KEYWORDS)
+
+
+def match_tier(text: str) -> str:
+    """Classify how confident a match is, for the dashboard's fitLevel field.
+    'Review' = hit a specific Hoplynk product keyword or a close general term.
+    'Review (broad match)' = only matched on a wider, more loosely-related
+    defense-tech term -- still worth a human glance, just lower confidence."""
+    text_l = text.lower()
+    if keyword_matches(text):
+        return "Review"
+    if any(kw in text_l for kw in GENERAL_KEYWORDS):
+        return "Review"
+    if any(kw in text_l for kw in ADJACENT_KEYWORDS):
+        return "Review (broad match)"
+    return "Review"
 
 
 def slugify(text: str) -> str:
@@ -192,7 +227,7 @@ def scan_sbir_api():
             "applicationUrl": url,
             "notes": "Auto-matched by scan -- fit level not yet manually reviewed.",
             "products": keyword_matches(full_blob) or ["Review"],
-            "fitLevel": "Review",
+            "fitLevel": match_tier(full_blob),
             "firstSeen": today_iso(),
         })
     return results
@@ -285,7 +320,7 @@ def scan_html_listing(source_name, url, link_selector="a"):
             "applicationUrl": href,
             "notes": "Picked up by keyword scan; not yet manually reviewed.",
             "products": keyword_matches(full_context) or ["Review"],
-            "fitLevel": "Review",
+            "fitLevel": match_tier(full_context),
             "firstSeen": today_iso(),
         })
     return results
@@ -348,7 +383,7 @@ def scan_sam_gov():
             "applicationUrl": item.get("uiLink", "https://sam.gov"),
             "notes": "Picked up by keyword scan; not yet manually reviewed.",
             "products": keyword_matches(full_blob) or ["Review"],
-            "fitLevel": "Review",
+            "fitLevel": match_tier(full_blob),
             "firstSeen": today_iso(),
         })
     return results
