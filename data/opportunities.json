@@ -1,5 +1,5 @@
 {
-  "lastScan": "2026-07-22T15:00:41.818687+00:00",
+  "lastScan": "2026-07-22T18:50:27.638810+00:00",
   "opportunities": [
     {
       "id": "dod-sbir-zero-trust-combat-systems",
@@ -214,6 +214,193 @@
       ],
       "fitLevel": "Review",
       "firstSeen": "2026-07-20"
+    },
+    {
+      "id": "xTech-xtech-phantum",
+      "name": "\u200b\u200b\u200bxTech|Phantum\u200b\u200b",
+      "source": "xTech",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://xtech.army.mil/competition/xtechphantum/",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review (broad match)",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "xTech-xtech-edge-strike-ground",
+      "name": "xTech|Edge Strike: Ground",
+      "source": "xTech",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://xtech.army.mil/competition/xtechedgestrikeground/",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "xTech-xtechcounter-strike",
+      "name": "xTechCounter Strike",
+      "source": "xTech",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://xtech.army.mil/competition/xtechcounterstrike/",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "xTech-xtechoverwatch",
+      "name": "xTechOverwatch",
+      "source": "xTech",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://xtech.army.mil/competition/xtechoverwatch/",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-work-with-us",
+      "name": "Work With Us",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/work-with-us",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-5-open-pathways",
+      "name": "5 Open Pathways",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/work-with-us/open-solicitations",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-terms-and-conditions",
+      "name": "Terms and Conditions",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://s3.us-gov-west-1.amazonaws.com/publicdocs.diu.mil/DIU_Terms_and_Conditions.docx ",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review (broad match)",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-submit-your-solution",
+      "name": "Submit Your Solution",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/work-with-us/submit-solution/PROJ00685",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "Review"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-diu-for-dow-entities",
+      "name": "DIU for DoW Entities",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/work-with-us/dod-entities",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-diu-for-commercial-companies",
+      "name": "DIU for Commercial Companies",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/work-with-us/commercial",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
+    },
+    {
+      "id": "DIU-careers-at-diu",
+      "name": "Careers At DIU",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/careers",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-22"
     }
   ]
 }
