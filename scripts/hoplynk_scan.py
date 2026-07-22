@@ -96,6 +96,23 @@ GENERAL_KEYWORDS = [
 ]
 
 
+def flatten_strings(obj, max_depth=4) -> str:
+    """Recursively pull every string value out of a JSON-like structure (dicts,
+    lists, nested combinations) and join them into one blob. Used so keyword
+    matching sees full descriptions/topic text/etc, not just whichever single
+    field we guessed was "the" title or objective -- API response shapes for
+    these sources aren't guaranteed to be flat or consistently named."""
+    if max_depth <= 0:
+        return ""
+    if isinstance(obj, str):
+        return obj
+    if isinstance(obj, dict):
+        return " ".join(flatten_strings(v, max_depth - 1) for v in obj.values())
+    if isinstance(obj, list):
+        return " ".join(flatten_strings(v, max_depth - 1) for v in obj)
+    return ""
+
+
 def keyword_matches(text: str):
     """Return the list of Hoplynk products a piece of text seems relevant to."""
     text_l = text.lower()
@@ -145,9 +162,20 @@ def scan_sbir_api():
 
     for item in data if isinstance(data, list) else data.get("results", []):
         name = item.get("solicitation_title") or item.get("topic_title") or ""
-        objective = item.get("solicitation_agency") or item.get("description") or ""
-        blob = f"{name} {objective}"
-        if not is_relevant(blob):
+        # Prefer an actual description-shaped field for the display objective;
+        # fall back through a few plausible field names since the API's exact
+        # schema for a given solicitation can vary.
+        objective = (
+            item.get("topic_description")
+            or item.get("solicitation_description")
+            or item.get("description")
+            or ""
+        )
+        # For *matching*, don't rely on guessing the right field name -- pull
+        # every string in the whole item (including nested topic lists, agency
+        # names, keywords arrays, etc.) so nothing relevant gets missed.
+        full_blob = flatten_strings(item)
+        if not is_relevant(full_blob):
             continue
         close_date = item.get("close_date") or item.get("solicitation_close_date")
         open_date = item.get("open_date") or item.get("solicitation_open_date")
@@ -156,14 +184,14 @@ def scan_sbir_api():
             "id": f"sbir-api-{slugify(name)}",
             "name": name.strip(),
             "source": "DoD SBIR",
-            "objective": objective.strip(),
+            "objective": objective.strip() or "See listing for full description.",
             "openDate": open_date,
             "closeDate": close_date,
             "cmmcRequirement": None,
             "fundingAmount": None,
             "applicationUrl": url,
             "notes": "Auto-matched by scan -- fit level not yet manually reviewed.",
-            "products": keyword_matches(blob) or ["Review"],
+            "products": keyword_matches(full_blob) or ["Review"],
             "fitLevel": "Review",
             "firstSeen": today_iso(),
         })
@@ -225,10 +253,21 @@ def scan_html_listing(source_name, url, link_selector="a"):
             continue
         if title in seen_titles:
             continue
-        # Pull a little surrounding context (parent block text) to improve matching
+        # Pull surrounding context to improve matching -- descriptions for
+        # these listings often live in a sibling element, not the link text
+        # itself, so check the immediate parent block first and widen the
+        # net to a grandparent if that block looks too thin to hold a real
+        # description. Also fold in title/aria-label attributes, which some
+        # sites use for a fuller description that isn't visible link text.
+        attr_text = " ".join(filter(None, [link.get("title"), link.get("aria-label")]))
         context = link.find_parent(["li", "div", "article", "section"])
         context_text = context.get_text(" ", strip=True) if context else title
-        if not is_relevant(context_text):
+        if len(context_text) < 40 and context is not None:
+            wider = context.find_parent(["li", "div", "article", "section"])
+            if wider:
+                context_text = wider.get_text(" ", strip=True)
+        full_context = f"{context_text} {attr_text}"
+        if not is_relevant(full_context):
             continue
         seen_titles.add(title)
         if href.startswith("/"):
@@ -245,7 +284,7 @@ def scan_html_listing(source_name, url, link_selector="a"):
             "fundingAmount": None,
             "applicationUrl": href,
             "notes": "Picked up by keyword scan; not yet manually reviewed.",
-            "products": keyword_matches(context_text) or ["Review"],
+            "products": keyword_matches(full_context) or ["Review"],
             "fitLevel": "Review",
             "firstSeen": today_iso(),
         })
@@ -294,21 +333,21 @@ def scan_sam_gov():
 
     for item in data.get("opportunitiesData", []):
         name = item.get("title", "")
-        blob = f"{name} {item.get('description', '')}"
-        if not is_relevant(blob):
+        full_blob = flatten_strings(item)
+        if not is_relevant(full_blob):
             continue
         results.append({
             "id": f"samgov-{slugify(name)}",
             "name": name,
             "source": "SAM.gov",
-            "objective": "Auto-collected lead -- confirm details on SAM.gov.",
+            "objective": item.get("description") or "Auto-collected lead -- confirm details on SAM.gov.",
             "openDate": item.get("postedDate"),
             "closeDate": item.get("responseDeadLine"),
             "cmmcRequirement": None,
             "fundingAmount": None,
             "applicationUrl": item.get("uiLink", "https://sam.gov"),
             "notes": "Picked up by keyword scan; not yet manually reviewed.",
-            "products": keyword_matches(blob) or ["Review"],
+            "products": keyword_matches(full_blob) or ["Review"],
             "fitLevel": "Review",
             "firstSeen": today_iso(),
         })

@@ -304,6 +304,79 @@
     font-size: 13px;
   }
 
+  /* ---- Manual check sources ---- */
+  .manual-section{
+    max-width: 1100px;
+    margin: 44px auto 0;
+    padding: 0 24px;
+  }
+  .manual-header{
+    display:flex;
+    align-items:baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .manual-header h2{
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .manual-header .badge{
+    background: var(--red-dim);
+    color: var(--red);
+  }
+  .manual-subhead{
+    color: var(--text-muted);
+    font-size: 13.5px;
+    max-width: 680px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .manual-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+  }
+  .manual-card{
+    background: var(--panel);
+    border: 1px solid var(--border-soft);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display:flex;
+    flex-direction:column;
+    gap: 6px;
+  }
+  .manual-card .name{
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+  .manual-card .note{
+    color: var(--text-muted);
+    font-size: 12.5px;
+    line-height: 1.5;
+    flex: 1;
+  }
+  .manual-card .cadence{
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--text-dim);
+  }
+  .manual-card a.visit{
+    margin-top: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--cyan);
+    text-decoration: none;
+    display:inline-flex;
+    align-items:center;
+    gap: 4px;
+  }
+  .manual-card a.visit:hover{ text-decoration: underline; }
+
   footer{
     max-width: 1100px;
     margin: 40px auto 0;
@@ -364,6 +437,17 @@
 
 <main id="card-list"></main>
 
+<div class="manual-section">
+  <div class="manual-header">
+    <h2>Sign-in required — check manually</h2>
+    <span class="badge">Not auto-scanned</span>
+  </div>
+  <p class="manual-subhead">
+    These sources require an account (or otherwise block automated access), so the scanner can't pull from them directly. They're listed here as quick links — worth a periodic manual pass at the cadence noted on each.
+  </p>
+  <div class="manual-grid" id="manual-grid"></div>
+</div>
+
 <footer>
   <span id="last-scan">Last scan: --</span>
   <span>Sources: DoD SBIR/DSIP, xTech, DIU, AFWERX, SAM.gov, NTIA</span>
@@ -378,6 +462,49 @@ const PRODUCT_ANGLES = { HAVEN: -90, Argus: 0, Hydra: 90, GoLynk: 180 };
 const GITHUB_REPO = 'christyahnn/hoplynk-funding-radar';
 document.getElementById('scan-btn').href =
   `https://github.com/${GITHUB_REPO}/actions/workflows/scan.yml`;
+
+// Sources that require a login (or otherwise block scraping/API access),
+// so they can't be pulled in automatically. Edit this list directly to
+// add/remove sources -- no other file needs to change.
+const MANUAL_CHECK_SOURCES = [
+  {
+    name: 'SAM.gov',
+    note: 'Full opportunity notices, attachments, and Q&A require a logged-in session. The scanner only sees what SAM.gov\'s public API exposes.',
+    cadence: 'Weekly',
+    url: 'https://sam.gov/search/?index=opp',
+  },
+  {
+    name: 'GoColosseum',
+    note: 'Army innovation/collaboration platform -- submissions and full challenge details sit behind account sign-in.',
+    cadence: 'Biweekly',
+    url: 'https://gocolosseum.com/',
+  },
+  {
+    name: 'DSIP / SBIR.gov topic detail pages',
+    note: 'Topic list is auto-scanned, but full topic Q&A threads and some attachments need a DSIP login.',
+    cadence: 'Weekly',
+    url: 'https://www.dodsbirsttr.mil/topics-app/',
+  },
+  {
+    name: 'OCED (Dept. of Energy)',
+    note: 'Posts new funding opportunities rarely -- last one was due Jan 2025 as of your original notes. Not worth scanning daily, but worth an occasional check.',
+    cadence: 'Occasionally',
+    url: 'https://oced-exchange.energy.gov/',
+  },
+];
+
+function renderManualSources(){
+  const grid = document.getElementById('manual-grid');
+  grid.innerHTML = MANUAL_CHECK_SOURCES.map(s => `
+    <div class="manual-card">
+      <div class="name">${s.name}</div>
+      <div class="note">${s.note}</div>
+      <div class="cadence">${s.cadence}</div>
+      <a class="visit" href="${s.url}" target="_blank" rel="noopener">Open &rarr;</a>
+    </div>
+  `).join('');
+}
+renderManualSources();
 
 let allOpps = [];
 let activeProduct = 'All';
