@@ -1,5 +1,5 @@
 {
-  "lastScan": "2026-07-24T03:59:24.461751+00:00",
+  "lastScan": "2026-07-24T14:49:51.439740+00:00",
   "opportunities": [
     {
       "id": "dod-sbir-zero-trust-combat-systems",
@@ -343,7 +343,7 @@
       "closeDate": null,
       "cmmcRequirement": null,
       "fundingAmount": null,
-      "applicationUrl": "https://www.diu.mil/work-with-us/submit-solution/PROJ00626",
+      "applicationUrl": "https://www.diu.mil/work-with-us/submit-solution/PROJ00672",
       "notes": "Picked up by keyword scan; not yet manually reviewed.",
       "products": [
         "Review"
@@ -422,6 +422,23 @@
     {
       "id": "DIU-3-open-pathways",
       "name": "3 Open Pathways",
+      "source": "DIU",
+      "objective": "Auto-collected lead -- confirm details on the source page.",
+      "openDate": null,
+      "closeDate": null,
+      "cmmcRequirement": null,
+      "fundingAmount": null,
+      "applicationUrl": "https://www.diu.mil/work-with-us/open-solicitations",
+      "notes": "Picked up by keyword scan; not yet manually reviewed.",
+      "products": [
+        "HAVEN"
+      ],
+      "fitLevel": "Review",
+      "firstSeen": "2026-07-24"
+    },
+    {
+      "id": "DIU-2-open-pathways",
+      "name": "2 Open Pathways",
       "source": "DIU",
       "objective": "Auto-collected lead -- confirm details on the source page.",
       "openDate": null,
